@@ -75,7 +75,7 @@ export SHOPPINGBENCH_API_TOKEN="$(openssl rand -hex 32)"
 azd env set SHOPPINGBENCH_API_TOKEN "$SHOPPINGBENCH_API_TOKEN"
 ```
 
-Change the region values if needed; set both to your chosen supported region. The `demo` profile uses Basic Search and one small Container App replica. The default `benchmark` profile uses Standard Search and more Container App capacity.
+Change the region values if needed before the first provisioning attempt. `AZURE_LOCATION` controls the supporting resources, while `AZURE_SEARCH_LOCATION` independently controls Search. The `demo` profile uses Basic Search and one small Container App replica. The default `benchmark` profile uses Standard Search and more Container App capacity.
 
 Now provision the resources:
 
@@ -84,6 +84,21 @@ azd provision
 ```
 
 This creates the resource group resources, including Azure AI Search, Container Apps, Container Registry, Storage, managed identity, and monitoring. It does not deploy the API image yet.
+
+If Search fails with `InsufficientResourcesAvailable` in `eastus2`, keep the
+same azd environment and change only the Search region, then retry:
+
+```bash
+azd env set AZURE_SEARCH_LOCATION westus2
+azd provision
+```
+
+`westus2` is an example; capacity is not guaranteed. Choose a region that
+supports your Search tier and meets your data residency requirements. Do not
+change `AZURE_LOCATION` to recover this Search-only failure: it also changes
+the other resources' locations and all generated resource names. This applies
+to a new Search service that failed to provision, not migrating an existing
+service or its indexes.
 
 Before proceeding, verify in Azure Portal that the new Container App managed identity has the `AcrPull` role on the new registry. Allow time for the role assignment to appear. The identity and assignment are created by the template.
 

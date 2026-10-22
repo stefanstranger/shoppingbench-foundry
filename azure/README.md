@@ -37,9 +37,25 @@ uses Basic Search and one 0.25-vCPU / 0.5-GiB Container App replica. The default
 `benchmark` profile retains Standard Search and 2-5 larger replicas. Search and
 ACR incur charges while provisioned, even when the demo is idle.
 
-The default deployment region is East US 2. Set both `AZURE_LOCATION` and
-`AZURE_SEARCH_LOCATION` in the AZD environment if you need to use a different
-region or if Azure reports capacity constraints in East US 2.
+Both regions default to East US 2. For a new deployment, set `AZURE_LOCATION`
+and `AZURE_SEARCH_LOCATION` to your chosen supported regions.
+
+If Search provisioning fails with `InsufficientResourcesAvailable` in `eastus2`,
+change only the Search region in the active AZD environment and retry from the
+repository root:
+
+```powershell
+azd env set AZURE_SEARCH_LOCATION westus2
+azd provision
+```
+
+`westus2` is an example, not a guarantee of available capacity. Choose a region
+that supports your Search tier and meets your data residency requirements.
+Keep `AZURE_LOCATION` unchanged when recovering a partially provisioned stack:
+it controls the other resources' locations and contributes to all generated
+resource names. After provisioning succeeds, continue with `azd deploy`.
+This recovery is for creating a new Search service; it does not move an existing
+service or its indexes to another region.
 
 The deployment outputs:
 
