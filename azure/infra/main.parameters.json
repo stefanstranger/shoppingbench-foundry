@@ -6,10 +6,10 @@
       "value": "${AZURE_ENV_NAME}"
     },
     "location": {
-      "value": "${AZURE_LOCATION=swedencentral}"
+      "value": "${AZURE_LOCATION=eastus2}"
     },
     "searchLocation": {
-      "value": "${AZURE_SEARCH_LOCATION=swedencentral}"
+      "value": "${AZURE_SEARCH_LOCATION=eastus2}"
     },
     "deploymentProfile": {
       "value": "${SHOPPINGBENCH_DEPLOYMENT_PROFILE=benchmark}"

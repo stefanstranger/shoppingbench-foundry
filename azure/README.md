@@ -1,6 +1,8 @@
 # Azure setup
 
 The Azure layer hosts the product catalog and the live tool/grader contract.
+For an end-to-end walkthrough that also deploys a hosted agent into your Foundry
+project, see [Deploy ShoppingBench to Azure with azd](../docs/deploy-to-azure.md).
 
 ## Resources
 
@@ -35,8 +37,9 @@ uses Basic Search and one 0.25-vCPU / 0.5-GiB Container App replica. The default
 `benchmark` profile retains Standard Search and 2-5 larger replicas. Search and
 ACR incur charges while provisioned, even when the demo is idle.
 
-Set both `AZURE_LOCATION` and `AZURE_SEARCH_LOCATION` in the AZD environment
-when choosing a region other than Sweden Central.
+The default deployment region is East US 2. Set both `AZURE_LOCATION` and
+`AZURE_SEARCH_LOCATION` in the AZD environment if you need to use a different
+region or if Azure reports capacity constraints in East US 2.
 
 The deployment outputs:
 
